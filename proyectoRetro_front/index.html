@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/imagenes/LOGOS/favicon-32x32.png" />
+  <link rel="canonical" href="https://www.retroverse.cc/" />
+  <title>
+    RetroVerse – Free Online Retro Games | Play Classic Arcade & Console Games
+  </title>
+  <meta name="description"
+    content="Free retro games online. Classic arcade games, old-school consoles, and 80s & 90s titles — no downloads required. RetroVerse: your gateway to gaming nostalgia." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Estilos externos -->
+  <link rel="stylesheet" href="/estilos.css" />
+
+  <!-- Goolge Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3325573086861654"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<!-- Google Tag Manager -->
+<script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        "gtm.start": new Date().getTime(),
+        event: "gtm.js",
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-MCPW5R2X");
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZT321LJ280"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "G-ZT321LJ280");
+</script>
+
+<body>
+  <!-- AdBlock Modal -->
+  <div id="adblockModal"
+    class="hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm">
+    <div class="bg-[#090039] text-[#00d2d9] max-w-md w-full mx-4 p-8 rounded-2xl
+           border border-[#f207fe]/50
+           shadow-[0_0_30px_rgba(242,7,254,0.35)] text-center">
+      <h2 class="text-3xl font-extrabold mb-4 tracking-wide">
+        AdBlock detected
+      </h2>
+
+      <p class="text-sm text-[#00d2d9]/90 leading-relaxed mb-8">
+        RetroVerse runs on minimal, non-intrusive ads.<br />
+        Please disable your ad blocker to continue playing.
+      </p>
+
+      <button id="adblockReload" class="w-full md:w-auto px-4 py-2 rounded-md
+             bg-gradient-to-r from-[#00ffcc] to-[#f207fe]
+             text-[#0f207f] font-bold tracking-wide
+             border border-[#f207fe]/60
+             transition-all duration-300
+             hover:scale-110
+             hover:shadow-[0_0_8px_#f207fe,_0_0_15px_#00ffcc]
+             active:scale-95">
+        Continue
+      </button>
+    </div>
+  </div>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MCPW5R2X" height="0" width="0"
+      style="display: none; visibility: hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <div class="sticky top-0 z-[100]">
+    <div class="ad-support-banner" aria-live="polite">
+      <div class="ad-support-banner__track">
+        <span class="ad-support-banner__text">RetroVerse runs on minimal, non-intrusive ads. Please disable your ad blocker to support us :)</span>
+        <span class="ad-support-banner__text" aria-hidden="true">RetroVerse runs on minimal, non-intrusive ads. Please disable your ad blocker to support us :)</span>
+      </div>
+    </div>
+
+  <header
+    class="relative flex items-center justify-between bg-[#090039] px-[25px] py-[8px] border-b-2 border-[#f207fe] shadow-[0_0_10px_#f207fe]">
+    <h1 class="m-0 flex items-center">
+      <a href="/index.html">
+        <img src="/imagenes/LOGOS/logo-sin-fonfo.png" alt="Logo RetroVerse"
+          class="h-[50px] w-auto ml-[15px] origin-center scale-x-[1.5] transition-transform duration-300 ease-in-out hover:scale-x-[1.45] hover:-rotate-2" />
+      </a>
+    </h1>
+
+    <!-- Botón hamburguesa -->
+    <button
+      class="block md:hidden text-[#f207fe] text-3xl p-2 hover:text-[#00ffcc] hover:scale-110 transition-all duration-300 z-[110]"
+      id="hamburger">
+      &#9776;
+    </button>
+
+    <!-- Nav menu -->
+    <nav id="nav-menu"
+      class="hidden md:flex absolute md:relative top-full md:top-auto left-0 right-0 bg-[#090039] md:bg-transparent border-t-2 md:border-0 border-[#f207fe] py-5 md:py-0 px-[25px] md:px-0 max-h-[calc(100vh-70px)] md:max-h-none overflow-y-auto md:overflow-visible">
+      <ul id="menu-principal"
+        class="flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-[10px] list-none p-0 m-0 w-full md:w-auto md:min-h-[50px]">
+        <li class="relative w-full md:w-auto md:static">
+          <button id="btn-buscar" type="button"
+            class="w-full md:w-auto px-4 py-2 rounded-md bg-gradient-to-r from-[#00ffcc] to-[#f207fe] text-[#0f207f] font-bold tracking-wide border border-[#f207fe]/60 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_8px_#f207fe,_0_0_15px_#00ffcc] active:scale-95">
+            Search
+          </button>
+          <div
+            class="campo-busqueda hidden absolute top-full left-0 md:left-auto md:right-0 flex items-center gap-2 bg-[#090039] border-2 border-[#00ffcc] rounded-md p-2 z-[200] w-full md:w-[320px] mt-2 shadow-lg">
+            <input type="text" placeholder="Type your search..."
+              class="flex-1 px-2.5 py-1.5 border-2 border-[#0f207f] rounded outline-none bg-[#090039] text-[#f207fe] font-bold text-sm focus:shadow-[0_0_4px_#f207fe,_inset_0_0_8px_#f207fe]" />
+
+            <button id="btn-ejecutar-busqueda" type="button"
+              class="px-3 py-1.5 rounded-md bg-gradient-to-r from-[#00ffcc] to-[#f207fe] text-[#0f207f] font-bold tracking-wide border border-[#f207fe]/60 transition-all duration-300 hover:scale-110 active:scale-95 whitespace-nowrap text-sm">
+              Search
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4">
+    <!-- CONTENEDOR GENERAL -->
+    <div class="w-full">
+
+      <!-- LISTADO DE JUEGOS -->
+      <section id="games-section" class="hidden">
+        <div class="flex flex-col lg:flex-row gap-6 mt-6">
+
+          <!-- COLUMNA PRINCIPAL -->
+          <div class="flex-1 w-full lg:min-w-0">
+            <div class="mt-6 mb-2 text-center">
+              <h2 id="titulo"></h2>
+              <p id="subtitulo" class="mt-2 text-sm md:text-base text-[#f207fe] max-w-3xl mx-auto leading-relaxed
+           [text-shadow:0_0_4px_#00ffcc]">
+              </p>
+            </div>
+
+            <!-- FICHA TÉCNICA -->
+            <div class="w-full">
+              <div id="ficha-tecnica" class="hidden mt-6 w-full rounded-xl border border-[#f207fe] bg-purple-100/10 p-5
+           text-sm text-purple-900 font-mono
+           shadow-[0_0_4px_#00ffcc,_inset_0_0_3px_#f207fe]">
+                <div class="mt-6 mb-2 text-center">
+                  <h2 id="titulo" class="text-3xl font-bold text-[#f207fe] tracking-wide">
+                  </h2>
+                </div>
+                <!-- DATOS (FORMATO CHIPS COMO ficha-juego-detalle) -->
+                <div class="flex flex-wrap gap-x-4 gap-y-3 justify-center mb-6 text-purple-950">
+                  <div class="bg-purple-900/20 px-3 py-1 rounded border border-purple-500/30">
+                    <span class="text-purple-800 text-xs font-medium">Release year:</span>
+                    <span id="anio-lanzamiento"></span>
+                  </div>
+                  <div class="bg-purple-900/20 px-3 py-1 rounded border border-purple-500/30">
+                    <span class="text-purple-800 text-xs font-medium">Manufacturer:</span>
+                    <span id="fabricante"></span>
+                  </div>
+                  <div class="bg-purple-900/20 px-3 py-1 rounded border border-purple-500/30">
+                    <span class="text-purple-800 text-xs font-medium">Origin region:</span>
+                    <span id="region"></span>
+                  </div>
+                  <div class="bg-purple-900/20 px-3 py-1 rounded border border-purple-500/30">
+                    <span class="text-purple-800 text-xs font-medium">Platform type:</span>
+                    <span id="tipo"></span>
+                  </div>
+                </div>
+
+                <!-- DESCRIPCIÓN / SEO -->
+                <div class="w-full pt-4 border-t border-purple-500/30">
+                  <strong class="block mb-2 text-purple-800 text-xs uppercase tracking-widest">
+                    Description:
+                  </strong>
+
+                  <div id="descripcion-SEO" class="text-purple-800 text-sm leading-relaxed text-justify
+               whitespace-pre-wrap break-words">
+                  </div>
+                </div>
+              </div>
+
+              <!-- LETRAS -->
+              <div id="letters" class="flex flex-wrap justify-center gap-2 my-6"></div>
+
+              <!-- GRID DE CARDS -->
+              <div id="cards-container"
+                class="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-5 justify-center">
+              </div>
+
+              <div id="pagination" class="flex justify-center mt-6"></div>
+            </div>
+          </div>
+
+          <!-- ADS LATERALES (solo desktop) -->
+          <div class="hidden lg:block lg:w-[300px] lg:shrink-0 space-y-6">
+            <aside class="w-[300px] h-[250px]">
+              <ins class="adsbygoogle" style="display:block;width:300px;height:250px"
+                data-ad-client="ca-pub-3325573086861654" data-ad-slot="3478138902">
+              </ins>
+            </aside>
+
+            <aside class="w-[300px] h-[250px]">
+              <ins class="adsbygoogle" style="display:block;width:300px;height:250px"
+                data-ad-client="ca-pub-3325573086861654" data-ad-slot="6401414203">
+              </ins>
+            </aside>
+
+            <aside class="w-[300px] h-[250px]">
+              <ins class="adsbygoogle" style="display:block;width:300px;height:250px"
+                data-ad-client="ca-pub-3325573086861654" data-ad-slot="9824899295">
+              </ins>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- DETALLE DE JUEGO -->
+      <section id="main-game-container" class="hidden">
+        <div class="flex flex-col lg:flex-row gap-6 mt-6">
+
+          <div class="flex-1 w-full lg:min-w-0">
+            <div id="game-cards-container" class="pt-6"></div>
+            <div id="iframe-preview" class="hidden mt-4"></div>
+          </div>
+
+          <!-- ADS LATERALES (solo desktop) -->
+          <div class="hidden lg:block lg:w-[300px] lg:shrink-0 space-y-6">
+            <aside class="w-[300px] h-[250px]">
+              <ins class="adsbygoogle" style="display:block;width:300px;height:250px"
+                data-ad-client="ca-pub-3325573086861654" data-ad-slot="3914097066">
+              </ins>
+            </aside>
+
+            <aside class="w-[300px] h-[250px]">
+              <ins class="adsbygoogle" style="display:block;width:300px;height:250px"
+                data-ad-client="ca-pub-3325573086861654" data-ad-slot="4775742851">
+              </ins>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- AD INFERIOR -->
+      <div class="w-full mx-auto my-8">
+        <ins class="adsbygoogle" style="display:block;min-height:250px" data-ad-client="ca-pub-3325573086861654"
+          data-ad-slot="3628647290" data-ad-format="auto" data-full-width-responsive="true">
+        </ins>
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- SEO TEXT -->
+  <section id="seo-text"
+    class="max-w-7xl mx-auto mt-6 mb-4 border border-[#f207fe] bg-[whitesmoke] p-6 text-justify font-mono text-[#551a8b] text-sm leading-relaxed shadow-[0_0_4px_#00ffcc,_inset_0_0_3px_#f207fe]">
+
+    <h2 class="mb-4 text-center text-2xl font-bold tracking-wide text-[#f207fe]
+    [text-shadow:0_0_5px_#fff,0_0_10px_#00ffcc,0_0_20px_#00ffcc,0_0_30px_#00ffcc,0_0_60px_#f207fe]
+    [-webkit-text-stroke:0.6px_black]
+    animate-[titulo-glow_2.2s_ease-in-out_infinite_alternate]">
+      Retro Games to Play Online</h2>
+
+    <p class="mb-3">
+      RetroVerse is a website dedicated to classic video games, created
+      for players who want to relive iconic titles directly in their
+      browser, with no installations or complicated processes.
+    </p>
+
+    <p class="mb-3">
+      The catalog features a carefully curated selection of arcade games
+      and retro classics from different eras, as well as popular titles
+      from historic consoles such as Sega and Nintendo, presented through
+      third-party content.
+    </p>
+
+    <p class="mb-3">
+      The platform is designed to deliver a simple, fast, and
+      device-friendly experience. Whether you're discovering old games for
+      the first time or replaying the ones that defined a generation,
+      RetroVerse offers clear and direct access.
+    </p>
+
+    <p>
+      The content is regularly updated to maintain a varied selection of
+      games across different genres and styles, always prioritizing ease
+      of use and overall user experience.
+    </p>
+
+  </section>
+
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="/script.js"></script>
+
+  <footer class="bg-[#090039] border-t-2 border-[#f207fe] shadow-[0_-2px_10px_#f207fe]">
+    <div class="max-w-7xl mx-auto
+              px-4 py-1.5
+              flex flex-col gap-3
+              text-sm
+              text-[#f207fe]
+              md:flex-row md:items-center md:justify-between">
+
+      <!-- izquierda -->
+      <span class="font-semibold tracking-wide">
+        © 2025 — RetroVerse
+      </span>
+      <!-- centro -->
+      <span class="text-[#f207fe] break-all">
+        contactoretroverse@gmail.com
+      </span>
+      <!-- derecha -->
+      <div class="flex gap-4 justify-center">
+        <a href="/legales/terms.html" class="footer-link text-[#f207fe] font-bold
+                transition-all duration-200
+                hover:text-[#f207fe] hover:scale-105">
+          Terms
+        </a>
+        <a href="/legales/privacy.html" class="footer-link text-[#f207fe] font-bold
+                transition-all duration-200
+                hover:text-[#f207fe] hover:scale-105">
+          Privacy
+        </a>
+        <a href="/legales/DMCA.html" class="footer-link text-[#f207fe] font-bold
+                transition-all duration-200
+                hover:text-[#f207fe] hover:scale-105">
+          DMCA
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+.cache/
+.idea/
+*.iml
+.env
+.dev.vars
+.DS_Store
+Thumbs.db
