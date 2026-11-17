@@ -438,7 +438,7 @@ function renderJuegos(juegos, mensajeVacio) {
 }
 
 function cargarJuegosRandom(paginaSeleccionada = 0) {
-  const url = `${API_JUEGOS_RANDOM}/40?noCache=${Date.now()}`;
+  const url = `${API_JUEGOS_RANDOM}/40`;
 
   cargarJuegosBase({
     url,
