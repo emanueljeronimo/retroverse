@@ -104,25 +104,13 @@ export const JuegosRandom = async (c: Context) => {
       attempts++;
 
       const missing = targetSize - selected.size;
-      const candidateCount = Math.min(Math.max(missing * 3, 30), 300);
-      const randomIds = new Set<number>();
+      const randomStartId = Math.floor(Math.random() * maxId) + 1;
 
-      for (let i = 0; i < candidateCount; i++) {
-        randomIds.add(Math.floor(Math.random() * maxId) + 1);
-      }
+      const chunk = await c.env.DB.prepare(
+        "SELECT * FROM juegos WHERE id >= ? LIMIT ?"
+      ).bind(randomStartId, missing).all();
 
-      const ids = Array.from(randomIds);
-      if (ids.length === 0) {
-        continue;
-      }
-
-      const placeholders = ids.map(() => "?").join(",");
-      const query = `SELECT * FROM juegos WHERE id IN (${placeholders})`;
-
-      const chunk = await c.env.DB.prepare(query).bind(...ids).all();
       const rows = Array.isArray(chunk.results) ? [...chunk.results] : [];
-
-      rows.sort(() => Math.random() - 0.5);
 
       for (const row of rows) {
         const id = Number((row as any).id);
@@ -145,8 +133,6 @@ export const JuegosRandom = async (c: Context) => {
       ).bind(fallbackSize, randomOffset).all();
 
       const rows = Array.isArray(fallback.results) ? [...fallback.results] : [];
-      rows.sort(() => Math.random() - 0.5);
-
       for (const row of rows) {
         const id = Number((row as any).id);
         if (!Number.isNaN(id)) {
