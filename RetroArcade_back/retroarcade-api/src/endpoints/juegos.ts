@@ -84,71 +84,49 @@ export const JuegosRandom = async (c: Context) => {
     const targetSize = Math.min(Math.max(Number.isNaN(requestedSize) ? 20 : requestedSize, 1), 100);
 
     const statsResult = await c.env.DB.prepare(
-      "SELECT COUNT(*) AS total, COALESCE(MAX(id), 0) AS maxId FROM juegos"
+      "SELECT COUNT(*) AS total FROM juegos"
     ).first();
 
-    const stats = statsResult as { total?: number; maxId?: number } | null;
+    const stats = statsResult as { total?: number } | null;
 
     const total = Number(stats?.total ?? 0);
-    const maxId = Number(stats?.maxId ?? 0);
 
-    if (total <= 0 || maxId <= 0) {
+    if (total <= 0) {
       return c.json([]);
     }
 
-    const selected = new Map<number, any>();
-    let attempts = 0;
-    const maxAttempts = 8;
+    const effectiveSize = Math.min(targetSize, total);
+    const offsets = new Set<number>();
 
-    while (selected.size < targetSize && attempts < maxAttempts) {
-      attempts++;
-
-      const missing = targetSize - selected.size;
-      const randomStartId = Math.floor(Math.random() * maxId) + 1;
-
-      const chunk = await c.env.DB.prepare(
-        "SELECT * FROM juegos WHERE id >= ? LIMIT ?"
-      ).bind(randomStartId, missing).all();
-
-      const rows = Array.isArray(chunk.results) ? [...chunk.results] : [];
-
-      for (const row of rows) {
-        const id = Number((row as any).id);
-        if (!Number.isNaN(id)) {
-          selected.set(id, row);
-        }
-        if (selected.size >= targetSize) {
-          break;
-        }
-      }
+    while (offsets.size < effectiveSize) {
+      offsets.add(Math.floor(Math.random() * total));
     }
 
-    if (selected.size < targetSize) {
-      const fallbackSize = targetSize - selected.size;
-      const maxOffset = Math.max(total - fallbackSize, 0);
-      const randomOffset = maxOffset > 0 ? Math.floor(Math.random() * (maxOffset + 1)) : 0;
+    const rows = await Promise.all(
+      Array.from(offsets).map((offset) =>
+        c.env.DB.prepare("SELECT * FROM juegos LIMIT 1 OFFSET ?").bind(offset).first()
+      )
+    );
 
+    const result = rows.filter((row): row is Record<string, unknown> => row !== null);
+
+    if (result.length < effectiveSize) {
+      const missing = effectiveSize - result.length;
       const fallback = await c.env.DB.prepare(
-        "SELECT * FROM juegos LIMIT ? OFFSET ?"
-      ).bind(fallbackSize, randomOffset).all();
+        "SELECT * FROM juegos LIMIT ?"
+      ).bind(missing).all();
 
-      const rows = Array.isArray(fallback.results) ? [...fallback.results] : [];
-      for (const row of rows) {
-        const id = Number((row as any).id);
-        if (!Number.isNaN(id)) {
-          selected.set(id, row);
-        }
-        if (selected.size >= targetSize) {
-          break;
-        }
+      if (Array.isArray(fallback.results)) {
+        result.push(...fallback.results as Record<string, unknown>[]);
       }
     }
 
-    const result = Array.from(selected.values());
     result.sort(() => Math.random() - 0.5);
-    return c.json(result.slice(0, targetSize));
+    return c.json(result.slice(0, effectiveSize));
 
   } catch (err) {
+
+    console.error("JuegosRandom error", err);
 
     return c.json(
 
