@@ -80,21 +80,87 @@ export const JuegosRandom = async (c: Context) => {
 
   try {
 
-    const size = c.req.param("size");
+    const requestedSize = Number.parseInt(c.req.param("size") || "20", 10);
+    const targetSize = Math.min(Math.max(Number.isNaN(requestedSize) ? 20 : requestedSize, 1), 100);
 
-    const results = await c.env.DB.prepare(
+    const statsResult = await c.env.DB.prepare(
+      "SELECT COUNT(*) AS total, COALESCE(MAX(id), 0) AS maxId FROM juegos"
+    ).first();
 
-      "SELECT * FROM juegos ORDER BY RANDOM() LIMIT ?"
+    const stats = statsResult as { total?: number; maxId?: number } | null;
 
-    )
+    const total = Number(stats?.total ?? 0);
+    const maxId = Number(stats?.maxId ?? 0);
 
-      .bind(size)
+    if (total <= 0 || maxId <= 0) {
+      return c.json([]);
+    }
 
-      .all();
+    const selected = new Map<number, any>();
+    let attempts = 0;
+    const maxAttempts = 8;
 
+    while (selected.size < targetSize && attempts < maxAttempts) {
+      attempts++;
 
+      const missing = targetSize - selected.size;
+      const candidateCount = Math.min(Math.max(missing * 3, 30), 300);
+      const randomIds = new Set<number>();
 
-    return c.json(results.results);
+      for (let i = 0; i < candidateCount; i++) {
+        randomIds.add(Math.floor(Math.random() * maxId) + 1);
+      }
+
+      const ids = Array.from(randomIds);
+      if (ids.length === 0) {
+        continue;
+      }
+
+      const placeholders = ids.map(() => "?").join(",");
+      const query = `SELECT * FROM juegos WHERE id IN (${placeholders})`;
+
+      const chunk = await c.env.DB.prepare(query).bind(...ids).all();
+      const rows = Array.isArray(chunk.results) ? [...chunk.results] : [];
+
+      rows.sort(() => Math.random() - 0.5);
+
+      for (const row of rows) {
+        const id = Number((row as any).id);
+        if (!Number.isNaN(id)) {
+          selected.set(id, row);
+        }
+        if (selected.size >= targetSize) {
+          break;
+        }
+      }
+    }
+
+    if (selected.size < targetSize) {
+      const fallbackSize = targetSize - selected.size;
+      const maxOffset = Math.max(total - fallbackSize, 0);
+      const randomOffset = maxOffset > 0 ? Math.floor(Math.random() * (maxOffset + 1)) : 0;
+
+      const fallback = await c.env.DB.prepare(
+        "SELECT * FROM juegos LIMIT ? OFFSET ?"
+      ).bind(fallbackSize, randomOffset).all();
+
+      const rows = Array.isArray(fallback.results) ? [...fallback.results] : [];
+      rows.sort(() => Math.random() - 0.5);
+
+      for (const row of rows) {
+        const id = Number((row as any).id);
+        if (!Number.isNaN(id)) {
+          selected.set(id, row);
+        }
+        if (selected.size >= targetSize) {
+          break;
+        }
+      }
+    }
+
+    const result = Array.from(selected.values());
+    result.sort(() => Math.random() - 0.5);
+    return c.json(result.slice(0, targetSize));
 
   } catch (err) {
 
