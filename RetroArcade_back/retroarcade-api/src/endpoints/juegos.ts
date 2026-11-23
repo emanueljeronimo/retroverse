@@ -84,40 +84,37 @@ export const JuegosRandom = async (c: Context) => {
     const targetSize = Math.min(Math.max(Number.isNaN(requestedSize) ? 20 : requestedSize, 1), 100);
 
     const statsResult = await c.env.DB.prepare(
-      "SELECT COUNT(*) AS total FROM juegos"
+      "SELECT COUNT(*) AS total, COALESCE(MAX(id), 0) AS maxId FROM juegos"
     ).first();
 
-    const stats = statsResult as { total?: number } | null;
+    const stats = statsResult as { total?: number; maxId?: number } | null;
 
     const total = Number(stats?.total ?? 0);
+    const maxId = Number(stats?.maxId ?? 0);
 
-    if (total <= 0) {
+    if (total <= 0 || maxId <= 0) {
       return c.json([]);
     }
 
     const effectiveSize = Math.min(targetSize, total);
-    const offsets = new Set<number>();
+    const randomStartId = Math.floor(Math.random() * maxId) + 1;
 
-    while (offsets.size < effectiveSize) {
-      offsets.add(Math.floor(Math.random() * total));
-    }
+    const firstBatch = await c.env.DB.prepare(
+      "SELECT * FROM juegos WHERE id >= ? ORDER BY id LIMIT ?"
+    ).bind(randomStartId, effectiveSize).all();
 
-    const rows = await Promise.all(
-      Array.from(offsets).map((offset) =>
-        c.env.DB.prepare("SELECT * FROM juegos LIMIT 1 OFFSET ?").bind(offset).first()
-      )
-    );
-
-    const result = rows.filter((row): row is Record<string, unknown> => row !== null);
+    const result: Record<string, unknown>[] = Array.isArray(firstBatch.results)
+      ? [...(firstBatch.results as Record<string, unknown>[])]
+      : [];
 
     if (result.length < effectiveSize) {
       const missing = effectiveSize - result.length;
-      const fallback = await c.env.DB.prepare(
-        "SELECT * FROM juegos LIMIT ?"
-      ).bind(missing).all();
+      const secondBatch = await c.env.DB.prepare(
+        "SELECT * FROM juegos WHERE id < ? ORDER BY id LIMIT ?"
+      ).bind(randomStartId, missing).all();
 
-      if (Array.isArray(fallback.results)) {
-        result.push(...fallback.results as Record<string, unknown>[]);
+      if (Array.isArray(secondBatch.results)) {
+        result.push(...(secondBatch.results as Record<string, unknown>[]));
       }
     }
 
